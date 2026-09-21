@@ -100,9 +100,23 @@ for i, (item, time) in enumerate(st.session_state.activities):
         if current_time >= time and not st.session_state.get(f"activity_{i}", False):
             st.warning(f"🔔 Reminder: {item}")
   
+if st.session_state.activities:
+    current_time = datetime.now().time()
 
-st.info("🔔 Your reminder is ready. Please press the button below to hear the gentle sound.")
+    due_activities = [
+        (item, time)
+        for item, time in st.session_state.activities
+        if current_time >= time
+    ]
 
+    if due_activities:
+        for item, time in due_activities:
+            st.warning(f"🔔 Reminder: {item}")
+    else:
+        st.info("🔔 No reminder is due yet.")
+else:
+    st.info("🔔 No reminders scheduled.")
+    
 components.html("""
 <button onclick="playReminder()" style="
     padding:10px 18px;
