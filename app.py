@@ -93,29 +93,17 @@ if st.button("🧹 Clear Completed Activities"):
 
     st.session_state.activities = remaining
     st.rerun()
+
 if st.session_state.activities:
     current_time = datetime.now().time()
 
-for i, (item, time) in enumerate(st.session_state.activities):
-        if current_time >= time and not st.session_state.get(f"activity_{i}", False):
-            st.warning(f"🔔 Reminder: {item}")
-  
-if st.session_state.activities:
-    current_time = datetime.now().time()
+    for i, (item, scheduled_time) in enumerate(st.session_state.activities):
 
-    due_activities = [
-        (item, time)
-        for item, time in st.session_state.activities
-        if current_time >= time
-    ]
+        if current_time >= scheduled_time:
+            if not st.session_state.get(f"reminded_{i}", False):
+                st.warning(f"🔔 Reminder: {item}")
+                st.session_state[f"reminded_{i}"] = True  
 
-    if due_activities:
-        for item, time in due_activities:
-            st.warning(f"🔔 Reminder: {item}")
-    else:
-        st.info("🔔 No reminder is due yet.")
-else:
-    st.info("🔔 No reminders scheduled.")
     
 components.html("""
 <button onclick="playReminder()" style="
