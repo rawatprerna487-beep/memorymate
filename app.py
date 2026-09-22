@@ -99,10 +99,15 @@ if st.session_state.activities:
 
     for i, (item, scheduled_time) in enumerate(st.session_state.activities):
 
+        if st.session_state.activities:
+    current_time = datetime.now().time()
+
+    for i, (item, scheduled_time) in enumerate(st.session_state.activities):
+
         if current_time >= scheduled_time:
-    if not st.session_state.get(f"reminded_{i}", False):
-        st.warning(f"🔔 Reminder: {item}")
-        st.session_state[f"reminded_{i}"] = True
+            if not st.session_state.get(f"reminded_{i}", False):
+                st.warning(f"🔔 Reminder: {item}")
+                st.session_state[f"reminded_{i}"] = True
         else:
             st.info(
                 f"🔔 Reminder scheduled: {item} at "
