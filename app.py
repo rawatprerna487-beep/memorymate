@@ -95,12 +95,7 @@ if st.button("🧹 Clear Completed Activities"):
     st.rerun()
 
 if st.session_state.activities:
-    current_time = datetime.now().time()
-
-    for i, (item, scheduled_time) in enumerate(st.session_state.activities):
-
-        if st.session_state.activities:
-    current_time = datetime.now().time()
+    current_time = datetime.now().time() 
 
     for i, (item, scheduled_time) in enumerate(st.session_state.activities):
 
