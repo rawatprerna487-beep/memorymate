@@ -10,7 +10,24 @@ st.set_page_config(
     page_icon="🧠",
     layout="centered"
 )
+from health_reminder import show_health_reminder
 
+if "show_health_dashboard" not in st.session_state:
+    st.session_state.show_health_dashboard = False
+
+if st.button(
+    "🌿 Open Daily Health Dashboard"
+    if not st.session_state.show_health_dashboard
+    else "← Back to MemoryMate"
+):
+    st.session_state.show_health_dashboard = (
+        not st.session_state.show_health_dashboard
+    )
+    st.rerun()
+
+if st.session_state.show_health_dashboard:
+    show_health_reminder()
+    st.stop()
 st.title("🧠 MemoryMate")
 st.caption("Daily Memory & Routine Assistant")
 st.write(
