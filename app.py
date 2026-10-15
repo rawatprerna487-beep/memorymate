@@ -11,9 +11,15 @@ st.set_page_config(
     layout="centered"
 )
 from health_reminder import show_health_reminder
+from health_reminder import show_daily_companion
+
+from health_reminder import show_health_reminder, show_daily_companion
 
 if "show_health_dashboard" not in st.session_state:
     st.session_state.show_health_dashboard = False
+
+if "show_daily_companion" not in st.session_state:
+    st.session_state.show_daily_companion = False
 
 if st.button(
     "🌿 Open Daily Health Dashboard"
@@ -23,10 +29,19 @@ if st.button(
     st.session_state.show_health_dashboard = (
         not st.session_state.show_health_dashboard
     )
+    st.session_state.show_daily_companion = False
     st.rerun()
 
 if st.session_state.show_health_dashboard:
-    show_health_reminder()
+    if st.button("🌿 Open My Daily Companion"):
+        st.session_state.show_daily_companion = True
+        st.rerun()
+
+    if st.session_state.show_daily_companion:
+        show_daily_companion()
+    else:
+        show_health_reminder()
+
     st.stop()
 st.title("🧠 MemoryMate")
 st.caption("Daily Memory & Routine Assistant")
